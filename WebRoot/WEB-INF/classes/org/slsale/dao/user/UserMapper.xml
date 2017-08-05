@@ -8,5 +8,10 @@
 		select * from au_user where loginCode=#{loginCode} and 
 		password=#{password}
 	</select>
-
+	<!-- addUser -->
+	<insert id="addUser" parameterType="user">
+		insert into au_user(loginCode,password,userName) values (
+			#{loginCode},#{password},#{userName}
+		)
+	</insert> 
 </mapper>

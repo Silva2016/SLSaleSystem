@@ -13,17 +13,17 @@ public class User {
 	public void setLoginCode(String loginCode) {
 		this.loginCode = loginCode;
 	}
-	public String getPassWord() {
+	public String getPassword() {
 		return password;
 	}
-	public void setPassWord(String passWord) {
-		this.password = passWord;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	public String getPassWord2() {
+	public String getPassword2() {
 		return password2;
 	}
-	public void setPassWord2(String passWord2) {
-		this.password2 = passWord2;
+	public void setPassword2(String password2) {
+		this.password2 = password2;
 	}
 	public String getUserName() {
 		return userName;
