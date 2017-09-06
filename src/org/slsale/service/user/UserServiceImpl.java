@@ -3,7 +3,7 @@ package org.slsale.service.user;
 import javax.annotation.Resource;
 
 import org.slsale.dao.user.UserMapper;
-import org.slsale.pojo.user.User;
+import org.slsale.pojo.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,9 +19,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int addUser(User user) throws Exception {
+	public int loginCodeIsExist(User user) throws Exception {
 		// TODO Auto-generated method stub
-		return userMapper.addUser(user);
+		return userMapper.loginCodeIsExist(user);
+	}
+
+	@Override
+	public int modifyUser(User user) throws Exception {
+		// TODO Auto-generated method stub
+		return userMapper.modifyUser(user);
 	}
 
 }

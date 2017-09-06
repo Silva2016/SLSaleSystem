@@ -32,6 +32,8 @@
 
 		<!-- 静态文件映射 -->
 		<mvc:resources location="/statics/" mapping="/statics/**"/>
+		<!-- <mvc:default-servlet-handler/> -->
+		
 		
 		<!-- 配置文件上传 -->
 		<bean id="multiPartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
