@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.slsale.common.Constants;
+import org.slsale.common.RedisAPI;
 import org.slsale.pojo.Authority;
 import org.slsale.pojo.Function;
 import org.slsale.pojo.Menu;
@@ -35,6 +36,8 @@ public class LoginController extends BaseController {
 	private UserService userService;
 	@Resource
 	private FunctionService functionService;
+	@Resource
+	private RedisAPI redisAPI;
 	
 	@RequestMapping("/main.html")
 	public ModelAndView main(HttpSession session){
@@ -45,20 +48,33 @@ public class LoginController extends BaseController {
 		if(null != user){
 			Map<String,Object> model = new HashMap<String, Object>();
 			model.put("user", user);
-			//根据当前用户获取菜单列表
-			
-			//如果redis里有数据，直接从redis里面取数据
-			mList = getFuncByCurrentUser(user.getRoleId());
-			//json
-			if(null != mList){
-				JSONArray jsonArray = JSONArray.fromObject(mList);
-				String jsonString = jsonArray.toString();
-				logger.debug("jsonString====>"+jsonString);
-				model.put("mList", jsonString);
-				session.setAttribute(Constants.SESSION_BASE_MODEL, model);
-				return new ModelAndView("main",model);
+			/**
+			 * key:menuList+roleID---eg:"menuList2"
+			 * value:mList
+			 */
+			//判断redis里面有没有数据
+			if(!(redisAPI.exists("menuList"+user.getRoleId()))){//没有数据
+				//根据当前用户获取菜单列表
+				mList = getFuncByCurrentUser(user.getRoleId());
+				//json
+				if(null != mList){
+					JSONArray jsonArray = JSONArray.fromObject(mList);
+					String jsonString = jsonArray.toString();
+					logger.debug("jsonString====>"+jsonString);
+					model.put("mList", jsonString);
+					redisAPI.set("menuList"+user.getRoleId(), jsonString);
+				}
+			}else{ //如果redis里有数据，直接从redis里面取数据
+				String redisMenuListKeyString = redisAPI.get("menuList"+user.getRoleId());
+				logger.debug("menuList from redis:"+redisMenuListKeyString);
+				if(null !=redisMenuListKeyString && !"".equalsIgnoreCase(redisMenuListKeyString)){
+					model.put("mList", redisMenuListKeyString);
+				}else{
+					return new ModelAndView("redirect:/");
+				} 
 			}
-			
+			session.setAttribute(Constants.SESSION_BASE_MODEL, model);
+			return new ModelAndView("main",model);
 		}
 		return new ModelAndView("redirect:/");
 	}
@@ -128,6 +144,13 @@ public class LoginController extends BaseController {
 			}
 		
 		}
+	}
+	
+	public String logout(HttpSession session){
+		session.removeAttribute(Constants.SESSION_USER);
+		session.invalidate();
+		this.setCurrentUser(null);
+		return "index";
 	}
 
 

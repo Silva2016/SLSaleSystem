@@ -1,49 +1,127 @@
 $(document).ready(function(){
-	/**
-	 * menu add start
-	 */
+	
+	/**modifypassword add by bdqn_hl 2014-2-28 start*/
+	
+	$("#modifySavePassword").click(function(){
+		var tip = $("#modifypwdtip");
+		tip.html("");
+		var oldpwd = $("#oldpassword").val();
+		var newpwd = $("#newpassword").val();
+		var aginpwd = $("#aginpassword").val();
+		if("" == oldpwd){
+			tip.css("color","red");
+			tip.html("对不起，请输入原密码，谢谢。");
+			$("#oldpassword").focus();
+		}else if("" == newpwd){
+			tip.css("color","red");
+			tip.html("对不起，请输入新密码，谢谢。");
+			$("#newpassword").focus();
+		}else if(newpwd.length < 6){
+			tip.css("color","red");
+			tip.html("对不起，新密码长度不能小于6位，谢谢。");
+			$("#newloginpwd").focus();
+		}else if("" == aginpwd){
+			tip.css("color","red");
+			tip.html("对不起，请再次输入新密码，谢谢。");
+			$("#aginpassword").focus();
+		}else if(newpwd != aginpwd){
+			tip.css("color","red");
+			tip.html("对不起，您两次输入的密码不一致，请重新输入，谢谢。");
+			$("#aginpassword").focus();
+		}else{
+			//userJson
+			user = new Object();
+			user.password = oldpwd;
+			user.password2 = newpwd;
+			$.ajax({
+				url: '/backend/modifyPwd.html',
+				type: 'POST',
+				data:{userJson:JSON.stringify(user)},
+				dataType: 'html',
+				timeout: 1000,
+				error: function(){
+					alert("修改密码失败！请重试。");
+				},
+				success: function(result){
+					if(result != "" && "success" == result){
+						tip.css("color","green");
+						tip.html("修改密码成功 ，下次登录记得使用新密码哦。^_^");
+					}else if("failed" == result){
+						tip.css("color","red");
+						tip.html("修改密码失败！请重试。");
+					}else if("oldpwdwrong" == result){
+						tip.css("color","red");
+						tip.html("原密码不正确！请重试。");
+					}else if("nodata" == result){
+						tip.css("color","red");
+						tip.html("对不起，没有任何数据需要处理！请重试。");
+					}
+				}
+				});
+		}
+	});
+	
+	/**modifypassword add by bdqn_hl 2014-2-28 end*/
+    var d = new Date();
+//    $('#a_cdate').val((d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear());
+//    $('#reply_createTime').val((d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear());
+    $('#a_cdate').val(d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate());
+    $('#reply_createTime').val(d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate());
+	
+	/**menu add by bdqn_hl 2014-2-27 start*/
 	var result = "";
-	var json = eval('('+tt+')');
-	alert(tt);
-	for(var i=0; i<json.length; i++){
-		/* <li class="nav-header hidden-tablet" onclick="$('#test1').toggle(300);">��̨����</li>
+	var json = eval('(' + tt + ')');
+	//alert(tt);
+	//$("#jsonstr").append(tt);
+	for(var i = 0;i<json.length;i++){
+		/*
+		<li class="nav-header hidden-tablet" onclick="$('#test1').toggle(500);">后台管理</li>
 		<li>
-			<ul id="test1" class="nav nav-tabs nav-stacked">
-				<li><a class="ajax-link" href="#"><i class="icon-home"></i><span class="hidden-tablet"> �û�����</span></a></li>
-				<li><a class="ajax-link" href="#"><i class="icon-eye-open"></i><span class="hidden-tablet"> ��ɫ����</span></a></li>
-				<li><a class="ajax-link" href="#"><i class="icon-edit"></i><span class="hidden-tablet"> Ȩ�޹���</span></a></li>
-				<li><a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> �����ֵ�</span></a></li>
+			<ul class="nav nav-tabs nav-stacked" id="test1">
+			<li><a class="ajax-link" href="index.html"><i class="icon-home"></i><span class="hidden-tablet">用户管理</span></a></li>
+			<li><a class="ajax-link" href="ui.html"><i class="icon-eye-open"></i><span class="hidden-tablet">角色管理</span></a></li>
+			<li><a class="ajax-link" href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> 权限管理</span></a></li>
+			<li><a class="ajax-link" href="chart.html"><i class="icon-list-alt"></i><span class="hidden-tablet">商品管理</span></a></li>
+			<li><a class="ajax-link" href="typography.html"><i class="icon-font"></i><span class="hidden-tablet">商品套餐管理</span></a></li>
+			<li><a class="ajax-link" href="gallery.html"><i class="icon-picture"></i><span class="hidden-tablet">基础信息</span></a></li>
+			<li><a class="ajax-link" href="gallery.html"><i class="icon-picture"></i><span class="hidden-tablet">数据字典</span></a></li>
 			</ul>
-		</li> */
-		//config main menu
-		result = result +' <li class="nav-header hidden-tablet" onclick="$(\'#tes'+i+'\').toggle(300);" style="cursor:pointer">'+json[i].mainMenu.functionName+'</li>';
-		//config sub menus
-		result = result +"<li><ul class=\"nav nav-tabs nav-stacked\" id=\"tes"+i+"\">";
+		</li>
+		 */
 		
-		for(var j = 0;j<json[i].subMenu.length;j++){
+		//config main menu
+		result = result + '<li class="nav-header hidden-tablet" onclick="$(\'#test'+i+'\').toggle(500);" style="cursor:pointer;">'+json[i].mainMenu.functionName+'</li>';
+		//config sub menus
+		result = result + "<li><ul class=\"nav nav-tabs nav-stacked\" id=\"test"+i+"\">";
+		
+		for(var j=0;j<json[i].subMenus.length;j++){
 			var pic;
-			switch(j){
+			switch(j)
+			{
 			case 0:
-				pic = "icon-home"; break;
+				pic = "icon-home";break;
 			case 1:
 				pic = "icon-eye-open"; break;
 			case 2:
-				pic = "icon-edit"; break;
+				pic = "icon-edit";break;
 			case 3:
-				pic = "icon-list-alt"; break;
+				pic = "icon-list-alt";break;
 			case 4:
-				pic = "icon-font"; break;
+				pic = "icon-font";break;
 			case 5:
-				pic = "icon-picture"; break;
+				pic = "icon-picture";break;
 			default:
-				pic = "icon-picture"; break;
+				pic = "icon-picture";break;
 			}
-			result = result + "<li><a class=\"ajax-link\" href=\""+json[i].subMenu[j].funcUrl+"\"><i class="+pic+"></i><span class=\"hidden-tablet\">"+json[i].subMenu[j].functionName+"</span></a></li>";
+			result = result + "<li><a class=\"ajax-link\" style=\"cursor:pointer;\" href=\""+json[i].subMenus[j].funcUrl +"\"><i class="+pic+"></i><span class=\"hidden-tablet\">"+json[i].subMenus[j].functionName + "</span></a></li>";
 		}
-		result = result + "</ul></li>";
+		result = result +"</ul></li>";
 	}
 	$("#menus").append(result);
-	/**menulist end*/
+	/**menu add by bdqn_hl 2014-2-27 end*/
+	
+	
+	
 	//themes, change CSS with JS
 	//default theme(CSS) is cerulean, change it if needed
 	var current_theme = $.cookie('current_theme')==null ? 'cerulean' :$.cookie('current_theme');
@@ -147,8 +225,6 @@ function docReady(){
 		e.preventDefault();
 	});
 	
-	//rich text editor
-	$('.cleditor').cleditor();
 	
 	//datepicker
 	$('.datepicker').datepicker();
@@ -307,6 +383,7 @@ function docReady(){
 	}
 
 	//datatable
+	/*
 	$('.datatable').dataTable({
 			"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span12'i><'span12 center'p>>",
 			"sPaginationType": "bootstrap",
@@ -314,6 +391,7 @@ function docReady(){
 			"sLengthMenu": "_MENU_ records per page"
 			}
 		} );
+		*/
 	$('.btn-close').click(function(e){
 		e.preventDefault();
 		$(this).parent().parent().parent().fadeOut();
@@ -325,14 +403,17 @@ function docReady(){
 		else 					   $('i',$(this)).removeClass('icon-chevron-down').addClass('icon-chevron-up');
 		$target.slideToggle();
 	});
-	$('.btn-setting').click(function(e){
+	
+	//add by bdqn_hl 2014-3-9
+	$('.modifypwd').click(function(e){
+		$('#oldpassword').val('');
+		$('#newpassword').val('');
+		$('#aginpassword').val('');
+		$('#modifypwdtip').html('');
 		e.preventDefault();
 		$('#myModal').modal('show');
 	});
-
-
-
-		
+	
 	//initialize the external events for calender
 
 	$('#external-events div.external-event').each(function() {

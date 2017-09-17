@@ -69,11 +69,11 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="/statics/img/logo20.png" /> <span>Charisma</span></a>
+				<a class="brand" href="/main.html"> <img alt="Charisma Logo" src="/statics/img/logo20.png" /> <span>SL会员商城</span></a>
 				
 				<!-- theme selector starts -->
 				<div class="btn-group pull-right theme-container" >
-					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+					<!-- <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 						<i class="icon-tint"></i><span class="hidden-phone"> Change Theme / Skin</span>
 						<span class="caret"></span>
 					</a>
@@ -87,12 +87,42 @@
 						<li><a data-value="slate" href="#"><i class="icon-blank"></i> Slate</a></li>
 						<li><a data-value="spacelab" href="#"><i class="icon-blank"></i> Spacelab</a></li>
 						<li><a data-value="united" href="#"><i class="icon-blank"></i> United</a></li>
+					</ul> -->
+					<ul class="nav">
+						<li><a href="#">你好，${user.loginCode}</a></li>
+						<li><a href="#">角色，${user.roleName}</a></li>
+						<li><a href="/main.html">首页</a></li>
+						<li><a href="#">购物车</a></li>
+						<li><a href="#">留言板</a></li>
+						<li><a href="javascript:void();" class="btn-setting modifypwd">修改密码</a></li>
+						<li><a href="/logout.html">注销</a></li>
 					</ul>
 				</div>
+				
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+            			<div class="modal-content">
+                			<div class="modal-header">
+                    			<button type="button" class="close" data-dismiss="modal">×</button>
+                    			<h3>修改密码</h3>
+                			</div>
+                			<div class="modal-body">
+                    			<p>
+									
+								</p>
+								<p id="modifypwdtip"></p>
+                			</div>
+                			<div class="modal-footer">
+                    			<a href="#" class="btn btn-default" data-dismiss="modal">取消</a>
+                    			<a href="#" id="modifySavaPassword" class="btn btn-primary" data-dismiss="modal">修改</a>
+                			</div>
+            			</div>
+        			</div>
+    			</div>
 				<!-- theme selector ends -->
 				
 				<!-- user dropdown starts -->
-				<div class="btn-group pull-right" >
+				<!-- <div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 						<i class="icon-user"></i><span class="hidden-phone"> admin</span>
 						<span class="caret"></span>
@@ -102,10 +132,10 @@
 						<li class="divider"></li>
 						<li><a href="login.html">Logout</a></li>
 					</ul>
-				</div>
+				</div> -->
 				<!-- user dropdown ends -->
 				
-				<div class="top-nav nav-collapse">
+				<!-- <div class="top-nav nav-collapse">
 					<ul class="nav">
 						<li><a href="#">Visit Site</a></li>
 						<li>
@@ -114,7 +144,7 @@
 							</form>
 						</li>
 					</ul>
-				</div><!--/.nav-collapse -->
+				</div> --><!--/.nav-collapse -->
 			</div>
 		</div>
 	</div>

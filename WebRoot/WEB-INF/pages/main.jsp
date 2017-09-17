@@ -29,5 +29,6 @@
 					</div>
 				</div><!--/span-->
 			</div>
-
+		
+	</div>
 <%@include file="/WEB-INF/pages/common/foot.jsp"%>

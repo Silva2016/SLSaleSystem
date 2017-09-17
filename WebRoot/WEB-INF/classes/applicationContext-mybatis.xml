@@ -78,7 +78,19 @@
        </bean>
        
        <!-- redis配置 -->
-  
-       
+  		<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+  			<property name="maxActive" value="90"></property>
+  			<property name="maxIdle" value="5"></property>
+  			<property name="maxWait" value="1000"></property>
+  			<property name="testOnBorrow" value="true"></property>
+  		</bean>
+       	<bean id="jedisPool" class="redis.clients.jedis.JedisPool" destroy-method="destroy">
+       		<constructor-arg ref="jedisPoolConfig"/>
+       		<constructor-arg value="192.168.1.6"/>
+       		<constructor-arg value="6379"/>
+       	</bean>
+       	<bean id="redisAPI" class="org.slsale.common.RedisAPI">
+       		<property name="jedisPool" ref="jedisPool"/>
+       	</bean>
       </beans>
 		
